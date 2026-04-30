@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* App-wide foundations to match the provided design */
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  html {
+    font-family: theme(fontFamily.sans);
+  }
+
+  body {
+    @apply bg-paper text-ink antialiased;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .ds-card {
+    @apply bg-white rounded-card ring-1 ring-black/5 shadow-ds-card transition-all duration-200;
+  }
+  .ds-card-hover {
+    @apply hover:-translate-y-0.5 hover:shadow-ds-cardHover;
+  }
+}

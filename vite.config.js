@@ -1,32 +1,22 @@
-import { execSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-const pkg = JSON.parse(
-  readFileSync(fileURLToPath(new URL('./package.json', import.meta.url)), 'utf-8'),
-)
+const pkgPath = fileURLToPath(new URL('./package.json', import.meta.url))
 
-function repoSlugFromGitRemote() {
-  try {
-    const url = execSync('git config --get remote.origin.url', {
-      encoding: 'utf-8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-    }).trim()
-    const m = url.match(/[:/]([^/]+)\/([^/.]+?)(?:\.git)?$/i)
-    const slug = m?.[2]
-    if (!slug) return ''
-    if (slug.endsWith('.github.io')) return ''
-    return slug
-  } catch {
-    return ''
-  }
-}
-
-/** GitHub Pages path: `/` for user/organization sites, `/<repo>/` for project pages. */
+/**
+ * Subpath hosts (e.g. https://user.github.io/repo/) must use base "/repo/" or
+ * the browser requests /assets/*.js at the domain root → 404 → white screen.
+ *
+ * Priority:
+ * 1. DEPLOY_BASE=/my-repo/ (any host)
+ * 2. GITHUB_REPOSITORY (set in GitHub Actions) → /repo/
+ * 3. GITHUB_PAGES=1 → /package.json "name"/ (local: npm run build:gh-pages)
+ * 4. "/" (root sites: Netlify/Vercel/custom domain at /)
+ */
 function productionBase() {
-  const explicit = process.env.GITHUB_PAGES_BASE?.trim()
+  const explicit = process.env.DEPLOY_BASE?.trim()
   if (explicit === '/' || explicit === '') return '/'
   if (explicit) return explicit.endsWith('/') ? explicit : `${explicit}/`
 
@@ -34,34 +24,17 @@ function productionBase() {
   if (slug.endsWith('.github.io')) return '/'
   if (slug) return `/${slug}/`
 
-  const fromGit = repoSlugFromGitRemote()
-  if (fromGit) return `/${fromGit}/`
-  return `/${pkg.name}/`
-}
-
-const figmaMcpUrl =
-  /https:\/\/www\.figma\.com\/api\/mcp\/asset\/[0-9a-fA-F-]+/g
-
-const figmaMcpPlaceholderPlugin = () => {
-  const svg =
-    '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="#e8e6dd"/></svg>'
-  const dataUrl = `data:image/svg+xml,${encodeURIComponent(svg)}`
-
-  return {
-    name: 'figma-mcp-public-placeholder',
-    apply: 'build',
-    transform(code, id) {
-      const path = id.replace(/\\/g, '/')
-      if (!path.includes('/src/')) return null
-      if (!code.includes('figma.com/api/mcp/asset')) return null
-      return code.replace(figmaMcpUrl, dataUrl)
-    },
+  if (process.env.GITHUB_PAGES === '1') {
+    const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
+    const n = String(pkg.name || 'app').trim()
+    if (n) return `/${n}/`
   }
+
+  return '/'
 }
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
-  // GitHub project pages live at /<repo>/; keep '/' in dev for normal local URLs.
-  base: mode === 'production' ? productionBase() : '/',
-  plugins: [react(), figmaMcpPlaceholderPlugin()],
+  base: mode === 'development' ? '/' : productionBase(),
+  plugins: [react()],
 }))

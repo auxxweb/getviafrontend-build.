@@ -28,9 +28,14 @@ export default memo(function SavedBusinessPage() {
               home page partner cards.
             </p>
 
-            <div className="mx-auto mt-8 grid max-w-[760px] justify-items-stretch gap-4 sm:grid-cols-2 sm:gap-5">
+            <div className="mx-auto mt-8 grid w-full max-w-[1200px] justify-items-stretch gap-4 sm:grid-cols-2 sm:gap-5">
               {profiles.map((p) => (
-                <VerifiedPartnerCard key={p.profileId} profile={p} stretch />
+                <VerifiedPartnerCard
+                  key={p.profileId}
+                  profile={p}
+                  stretch
+                  uniformActionRow
+                />
               ))}
             </div>
           </div>

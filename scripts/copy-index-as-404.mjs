@@ -12,4 +12,4 @@ if (!existsSync(indexHtml)) {
 }
 
 copyFileSync(indexHtml, notFoundHtml)
-console.log('copy-index-as-404: dist/index.html -> dist/404.html (GitHub Pages SPA fallback)')
+console.log('copy-index-as-404: dist/index.html -> dist/404.html')

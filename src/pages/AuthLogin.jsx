@@ -14,7 +14,7 @@ export const AuthLogin = memo(function AuthLogin() {
       <main className="container-page py-10">
         <div className="mx-auto w-full max-w-[520px] rounded-[24px] bg-white p-6 shadow-[0px_10px_24px_rgba(0,0,0,0.08)] ring-1 ring-black/5 sm:p-8">
           <img
-            src={`${import.meta.env.BASE_URL}favicon.svg`}
+            src={`${import.meta.env.BASE_URL}getvia-logo.png`}
             alt="Getvia"
             className="h-[28px] w-auto object-contain"
             loading="eager"

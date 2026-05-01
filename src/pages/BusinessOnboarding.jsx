@@ -128,7 +128,7 @@ function MobileProgress({ activeId }) {
     <div className="lg:hidden">
       <div className="flex items-center justify-between gap-3">
         <img
-          src={`${import.meta.env.BASE_URL}favicon.svg`}
+          src={`${import.meta.env.BASE_URL}getvia-logo.png`}
           alt="Getvia"
           className="h-[24px] w-auto"
         />

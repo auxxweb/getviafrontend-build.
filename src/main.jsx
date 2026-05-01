@@ -5,9 +5,13 @@ import './index.css'
 import App from './App.jsx'
 import { ErrorBoundary } from './components/ErrorBoundary.jsx'
 
+const baseUrl = import.meta.env.BASE_URL ?? '/'
+const routerBasename =
+  baseUrl === '/' ? undefined : baseUrl.replace(/\/$/, '')
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={routerBasename}>
       <ErrorBoundary>
         <App />
       </ErrorBoundary>

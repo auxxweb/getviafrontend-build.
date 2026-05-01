@@ -11,7 +11,7 @@ export const Footer = memo(function Footer() {
           <div className="grid gap-8">
             <div>
               <img
-                src="/getvia-logo.png"
+                src={`${import.meta.env.BASE_URL}getvia-logo.png`}
                 alt="Getvia"
                 className="h-[28px] w-auto object-contain"
                 loading="lazy"
@@ -124,7 +124,7 @@ export const Footer = memo(function Footer() {
               <div className="flex w-full flex-col items-start">
               <div className="flex w-full flex-col justify-center">
                 <img
-                  src="/getvia-logo.png"
+                  src={`${import.meta.env.BASE_URL}getvia-logo.png`}
                   alt="Getvia"
                   className="h-[28px] w-auto object-contain"
                   loading="lazy"

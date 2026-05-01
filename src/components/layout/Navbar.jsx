@@ -22,7 +22,7 @@ export const Navbar = memo(function Navbar() {
           <div className="container-page flex h-[67px] items-center justify-between">
             <NavLink to="/" aria-label="Getvia" className="relative h-[26px] w-[140px]">
               <img
-                src={`${import.meta.env.BASE_URL}getvia-logo.png`}
+                src={`${import.meta.env.BASE_URL}favicon.svg`}
                 alt="Getvia"
                 className="h-[26px] w-auto object-contain"
                 loading="eager"
@@ -174,7 +174,7 @@ export const Navbar = memo(function Navbar() {
               aria-label="Getvia"
             >
               <img
-                src={`${import.meta.env.BASE_URL}getvia-logo.png`}
+                src={`${import.meta.env.BASE_URL}favicon.svg`}
                 alt="Getvia"
                 className="h-[26px] w-auto object-contain"
                 loading="eager"
